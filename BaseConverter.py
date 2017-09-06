@@ -1,4 +1,4 @@
-from tkinter import Tk, Entry, IntVar, StringVar, Label, Frame, Button, N, W, E, S
+from tkinter import Tk, Entry, IntVar, StringVar, Label, Frame, Button, N, W, E, S, FLAT, GROOVE
 
 oldVariables = [0, 0, 0]
 
@@ -125,30 +125,34 @@ def main():
 
 	tk = Tk()
 	tk.title("Base 10 - 2 - 16 converter")
+	tk.tk_setPalette(background="#FFFFFF")
 
-	mainFrame = Frame(master = tk)
+	mainFrame = Frame(master = tk, background = "#FFFFFF")
 
 	decimalVar   = IntVar()
-	entryDecimal = Entry(master = mainFrame, textvariable = decimalVar)
+	entryDecimal = Entry(master = mainFrame, textvariable = decimalVar, background = "#F8F8F8")
 	hexaVar      = StringVar()
-	entryHexa    = Entry(master = mainFrame, textvariable = hexaVar)
+	entryHexa    = Entry(master = mainFrame, textvariable = hexaVar, background = "#F8F8F8")
 	binaryVar    = StringVar()
-	entryBinary  = Entry(master = mainFrame, textvariable = binaryVar)
+	entryBinary  = Entry(master = mainFrame, textvariable = binaryVar, background = "#F8F8F8")
 
 	decimalLabel = Label(master = mainFrame, text = "Decimal")
 	hexaLabel    = Label(master = mainFrame, text = "Hexadecimal")
 	binaryLabel  = Label(master = mainFrame, text = "Binary")
 
-	convert      = Button(master = mainFrame, text = "Convert", command = lambda : conversion(decimalVar, hexaVar, binaryVar))
+	convert      = Button(master = mainFrame, text = "Convert", 
+		command = lambda : conversion(decimalVar, hexaVar, binaryVar),
+		relief = GROOVE, 
+		highlightthickness = 3)
 
 	mainFrame.grid(row = 0, column = 0, padx = 60, pady = 30)
 
-	decimalLabel.grid(row = 0, column = 0, pady = 5, padx = 5, sticky = W)
-	entryDecimal.grid(row = 0, column = 1, pady = 5)
-	hexaLabel.grid   (row = 1, column = 0, pady = 5, padx = 5, sticky = W)
-	entryHexa.grid   (row = 1, column = 1, pady = 5)
-	binaryLabel.grid (row = 2, column = 0, pady = 5, padx = 5, sticky = W)
-	entryBinary.grid (row = 2, column = 1, pady = 5)
+	decimalLabel.grid(row = 0, column = 0, pady = 10, padx = 5, sticky = W)
+	entryDecimal.grid(row = 0, column = 1, pady = 10)
+	hexaLabel.grid   (row = 1, column = 0, pady = 10, padx = 5, sticky = W)
+	entryHexa.grid   (row = 1, column = 1, pady = 10)
+	binaryLabel.grid (row = 2, column = 0, pady = 10, padx = 5, sticky = W)
+	entryBinary.grid (row = 2, column = 1, pady = 10)
 
 	convert.grid     (row = 3, column = 0, columnspan = 2, pady = 5)
 
