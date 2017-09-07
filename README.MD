@@ -7,7 +7,7 @@ Simple and intuitive converter for bases [2;26]
 
 ----------------
 
-HOW TO USE
+### HOW TO USE
 
 Just run BaseConverter.py with Python3.X 
 
