@@ -1,5 +1,6 @@
 # BaseConverter
 
-![alt](https://i.gyazo.com/a664750cb08c4e90215d7effc41530e8.png)
+![alt](https://i.gyazo.com/fc8c9735f5bfa175bcaa639750469ad8.png)
+![alt](https://i.gyazo.com/5740e0e7e1ca3b4b4d309ea3a5ead1af.png)
 
-Simple and intuitive converter for bases 10, 2, and 16.
+Simple and intuitive converter for bases [2;26]
