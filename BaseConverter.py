@@ -1,4 +1,5 @@
-from tkinter import Tk, Entry, IntVar, StringVar, Label, Frame, Button, N, W, E, S, FLAT, GROOVE
+from tkinter import Tk, Menu, Entry, Scale, Spinbox, IntVar, StringVar, BooleanVar, Label, Frame, Button, N, W, E, S, FLAT, GROOVE, HORIZONTAL
+from MultiBasesConverter import convert
 
 oldVariables = [0, 0, 0]
 
@@ -123,29 +124,46 @@ def find(tpl, item):
 
 def main():
 
+	def switchFrame(current_frame, todisplay_frame):
+		current_frame.grid_forget()
+		todisplay_frame.grid(row = 0, column = 0, padx = 60, pady = 30)
+
 	tk = Tk()
-	tk.title("Base 10 - 2 - 16 converter")
+	tk.title("BaseConverter")
 	tk.tk_setPalette(background="#FFFFFF")
 
-	mainFrame = Frame(master = tk, background = "#FFFFFF")
+	menu = Menu(master = tk, bg = "#DDDDDD", activebackground = "#999999")
+	menu.add_command(label = "Switch to complete converter", 
+		command = lambda : [switchFrame((classicFrame if frameDisplayed.get() == 0 else completeFrame), 
+									   (completeFrame if frameDisplayed.get() == 0 else classicFrame)),
+							frameDisplayed.set((1 if frameDisplayed.get() == 0 else 0)),
+							menu.entryconfig(index = 1, label = ("Switch to complete converter" if frameDisplayed.get() == 0 else
+								"Switch to quick converter"))])
+	tk.config(menu = menu)
+
+	frameDisplayed = BooleanVar() # 0 = classic, 1 = complete
+	frameDisplayed.set(0)
+
+
+	##### classic frame #####
+	classicFrame = Frame(master = tk, background = "#FFFFFF")
 
 	decimalVar   = IntVar()
-	entryDecimal = Entry(master = mainFrame, textvariable = decimalVar, background = "#F8F8F8")
+	entryDecimal = Entry(master = classicFrame, textvariable = decimalVar, background = "#F8F8F8")
 	hexaVar      = StringVar()
-	entryHexa    = Entry(master = mainFrame, textvariable = hexaVar, background = "#F8F8F8")
+	entryHexa    = Entry(master = classicFrame, textvariable = hexaVar, background = "#F8F8F8")
 	binaryVar    = StringVar()
-	entryBinary  = Entry(master = mainFrame, textvariable = binaryVar, background = "#F8F8F8")
+	entryBinary  = Entry(master = classicFrame, textvariable = binaryVar, background = "#F8F8F8")
 
-	decimalLabel = Label(master = mainFrame, text = "Decimal")
-	hexaLabel    = Label(master = mainFrame, text = "Hexadecimal")
-	binaryLabel  = Label(master = mainFrame, text = "Binary")
+	decimalLabel = Label(master = classicFrame, text = "Decimal")
+	hexaLabel    = Label(master = classicFrame, text = "Hexadecimal")
+	binaryLabel  = Label(master = classicFrame, text = "Binary")
 
-	convert      = Button(master = mainFrame, text = "Convert", 
+	convertButton1 = Button(master = classicFrame, text = "Convert", 
 		command = lambda : conversion(decimalVar, hexaVar, binaryVar),
-		relief = GROOVE, 
-		highlightthickness = 3)
+		relief = GROOVE)
 
-	mainFrame.grid(row = 0, column = 0, padx = 60, pady = 30)
+	classicFrame.grid(row = 0, column = 0, padx = 60, pady = 30)
 
 	decimalLabel.grid(row = 0, column = 0, pady = 10, padx = 5, sticky = W)
 	entryDecimal.grid(row = 0, column = 1, pady = 10)
@@ -154,11 +172,50 @@ def main():
 	binaryLabel.grid (row = 2, column = 0, pady = 10, padx = 5, sticky = W)
 	entryBinary.grid (row = 2, column = 1, pady = 10)
 
-	convert.grid     (row = 3, column = 0, columnspan = 2, pady = 5)
+	convertButton1.grid(row = 3, column = 0, columnspan = 2, pady = 5)
 
 	decimalVar.set(0)
 	hexaVar.set(0)
 	binaryVar.set(0)
+	######################### classic frame
+
+
+	##### complete Frame #####
+
+	completeFrame = Frame(master = tk)
+
+	labelFrom   = Label(completeFrame, text = "From base")
+	
+	fromBaseVar = IntVar()
+	fromBaseVar.set(0)
+	baseFrom    = Scale(completeFrame, from_ = 2, to = 26, orient = HORIZONTAL, variable = fromBaseVar)
+	fromVar     = StringVar()
+	fromVar.set("0")
+	fromEntry   = Entry(completeFrame, textvariable = fromVar)
+
+	labelFrom.grid(row = 0, column = 0, pady = 10, padx = 5, sticky = W)
+	baseFrom.grid (row = 0, column = 1, pady = 10, padx = 5)
+	fromEntry.grid(row = 0, column = 2, pady = 10, padx = 5)
+
+	labelTo   = Label(completeFrame, text = "To base")
+	toBaseVar = IntVar()
+	toBaseVar.set(0)
+	baseFrom  = Scale(completeFrame, from_ = 2, to = 26, orient = HORIZONTAL, variable = toBaseVar)
+	toVar     = StringVar()
+	toVar.set("0")
+	toEntry   = Entry(completeFrame, textvariable = toVar)
+
+	labelTo.grid (row = 1, column = 0, pady = 10, padx = 5, sticky = W)
+	baseFrom.grid(row = 1, column = 1, pady = 10, padx = 5)
+	toEntry.grid (row = 1, column = 2, pady = 10, padx = 5)
+
+	convertButton2 = Button(master = completeFrame, text = "Convert", 
+		command = lambda : toVar.set(convert(from_n = fromBaseVar.get(), to_m = toBaseVar.get(), number = fromVar.get())),
+		relief = GROOVE)
+	convertButton2.grid(row = 2, column = 0, columnspan = 3, pady = 10)
+
+
+	######################### complete frame
 
 	tk.mainloop()
 
